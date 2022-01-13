@@ -1,0 +1,6 @@
+# git ignore
+webpersonal/secret.json
+webpersonal/*/migrations/*
+webpersonal/db.sqlite3
+webpersonal/media
+!webpersonal/*/migrations/__init__.py
