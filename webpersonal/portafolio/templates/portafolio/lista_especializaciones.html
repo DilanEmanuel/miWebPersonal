@@ -1,0 +1,28 @@
+{% extends 'portafolio/includes/basePortafolio.html' %}
+{% load static %}
+
+{%  block linkRegreso %} 
+<a href="{% url 'portafolio_app:portafolio' %}#especializaciones">Regresar al portafolio </a>
+{% endblock %}
+
+{% block portafolioApartado %}
+
+
+
+<div class="container marketing">
+    <div class="row">
+      {% for cadaEspecializacion in especilizacion_list %}
+      <div class="col-lg-4">
+        <img class="rounded-circle"  {% if cadaEspecializacion.logoExtra.imagen.url %} src="{{cadaEspecializacion.logoExtra.imagen.url}}"  {% else %}  src="{{cadaEspecializacion.empresaEmisora.imagen.url}}"  {% endif %} alt="Generic placeholder image" width="140" height="140">
+        <h2>{{cadaEspecializacion.nombre}}</h2>
+        <p class="card-text"><small class="text-muted">{{cadaEspecializacion.fechaExpedicion}}</small></p>
+        <p class="card-text"><small class="text-muted"> Duracion: {{cadaEspecializacion.duracionHoras}} horas</small></p>
+        <p class="card-text">{{cadaEspecializacion.descripccion|safe|truncatechars:200}}</p>
+        <p><a href="http://google.com">Más información</a></p>
+      </div><!-- /.col-lg-4 -->
+      {% endfor %}
+    </div><!-- /.row -->
+  </div><!-- /.container -->
+  
+
+{% endblock portafolioApartado %}

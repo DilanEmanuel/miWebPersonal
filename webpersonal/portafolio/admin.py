@@ -1,5 +1,5 @@
 from django.contrib import admin
-from .models import (Apartado_Portafolio,Proyecto,CursoImpartido,CursoTomado,
+from .models import (Apartado_Portafolio,Habilidad,Proyecto,CursoImpartido,CursoTomado,
 Especilizacion,EspecilizacionRelacion,Logo,ExperienciaLaboral,ActividadRealizada)
 
 class ProyectoAdmin(admin.ModelAdmin):
@@ -20,6 +20,8 @@ admin.site.register(ActividadRealizada)
 admin.site.register(Apartado_Portafolio)
 #admin.site.register(Proyecto,ProyectoAdmin)
 admin.site.register(Proyecto,ProyectoAdmin)
+
+admin.site.register(Habilidad)
 
 admin.site.register(CursoImpartido,CursoAmdin)
 admin.site.register(CursoTomado,CursoAmdin)

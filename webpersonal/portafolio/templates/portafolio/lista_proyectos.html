@@ -1,0 +1,31 @@
+{% extends 'portafolio/includes/basePortafolio.html' %}
+{% load static %}
+
+{%  block linkRegreso %} 
+<a href="{% url 'portafolio_app:portafolio' %}#proyectos">Regresar al portafolio </a>
+{% endblock %}
+
+{% block portafolioApartado %}
+
+
+{% for cadaProyecto in proyecto_list %}    
+    {% if forloop.counter0|divisibleby:3 %}
+    {% if not forloop.first  %}</div><br>{% endif %}
+    <div class="card-deck" >
+    {% endif %}
+
+    <div class="col-lg-4">
+        <img src="{{cadaProyecto.imagen.url}} " class="card-img-top" alt="...">
+        <div class="card-body">
+        <h5 class="card-title">{{cadaProyecto.titulo}}</h5>
+        <p class="card-text"><small class="text-muted">{{cadaProyecto.terminoProyecto}}</small></p>
+        <p class="card-text">{{cadaProyecto.descripccion|safe|truncatechars:200}}</p>
+        <p><a href="http://google.com">Más información</a></p>
+        </div>
+    </div>
+    {% if forloop.last %}
+    </div>
+    {% endif %}
+{% endfor %}
+
+{% endblock portafolioApartado %}

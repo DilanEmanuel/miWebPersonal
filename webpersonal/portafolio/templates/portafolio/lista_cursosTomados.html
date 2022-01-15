@@ -1,0 +1,177 @@
+{% extends 'portafolio/includes/basePortafolio.html' %}
+{% load static %}
+
+{%  block linkRegreso %} 
+<a href="{% url 'portafolio_app:portafolio' %}#cursos_tomados">Regresar al portafolio </a>
+{% endblock %}
+
+{% block portafolioApartado %}
+
+<!-- 
+
+  Fuente de informacion:
+
+  https://getbootstrap.com/docs/4.1/components/navs/
+
+
+  https://bootsnipp.com/tags/search?page=1
+
+-->
+
+<div class="container">
+	<div class="row">
+		<div class="col-md-12" action="{% url 'portafolio_app:cursosTomados-lista' %}" >
+            <div class="input-group" id="adv-search" style="font-size:20px;">
+            
+              <form   class="input-group" action="{% url 'portafolio_app:cursosTomados-lista' %}"  >{% csrf_token %}
+                <input id="palabraClave" name="palabraClave" type="text" class="form-control mr-sm-2" placeholder="Buscar por nombre"
+                required="required" pattern="{1,20}"
+                />
+                <button type="submit">
+                  <i class="fa fa-search "></i></button>
+                <div class=" mr-sm-2"></div> 
+              </form>
+
+              <form  class="input-group" action="{% url 'portafolio_app:cursosTomados-lista' %}" >{% csrf_token %}
+                <select id="habilidad" name="habilidad" class="selectpicker form-control mr-sm-2"
+                required="required" pattern="{1,20}"> 
+                  <option value="" selected="selected" >Buscar por habilidad</option>
+                  {% for cadaHabilidad in habilidadesCursos %}
+                  <option value="{{cadaHabilidad.id}}">{{cadaHabilidad.nombre}}</option>
+                  {% endfor %}
+          
+                </select>
+                <button type="submit">
+                  <i class="fa fa-search "></i></button>
+              </form>
+
+              </div>
+            </div>
+    </div>
+</div>
+
+<div class="col-md-12 text-center mt-3"">
+  <a href="{% url 'portafolio_app:cursosTomados-lista' %}">
+    <button type="button" class="btn btn-light">Ver todos los cursos</button>
+  </a>
+ 
+
+</div>
+
+
+
+<div class="container mt-5">
+  {% for cadaCurso in cursotomado_list %}
+      {% if forloop.counter0|divisibleby:3 %}
+        {% if not forloop.first  %}</div>{% endif %}
+        <div class="row my-3">
+      {% endif %}
+
+      <div class="col-md-4">
+          <div class="card text-center h-100">
+              <a href="#">
+                <div class="card-block">
+                    <h5 class="card-title"> 
+                        <a href="#"> {{cadaCurso.nombre}} </a> </h5>
+                    <div class="mb-1 text-muted">{{cadaCurso.fechaExpedicion}}</div>
+                    <h2>
+                        <img class="rounded-circle"  {% if cadaCurso.logoExtra.imagen.url %} src="{{cadaCurso.logoExtra.imagen.url}}"  {% else %}  src="{{cadaCurso.empresaEmisora.imagen.url}}"  {% endif %}   alt="Generic placeholder image" width="140" height="140">
+                    </h2>
+                </div>
+                <div class="row px-2 no-gutters">
+                  <div class="col-12">
+                    <p><a href="http://google.com">Más información</a></p>
+                  </div>
+                </div>
+             </a>
+          </div>
+      </div>  
+      {% if forloop.last %}
+      </div>
+      {% endif %}
+  {% endfor %}
+</div>
+
+
+
+
+
+
+
+
+
+
+
+<!--
+<form class="form-inline justify-content-center" style="text-align: center;">
+  <input class="form-control mr-sm-2"type="text" placeholder="Search" aria-label="Search">
+  <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Search</button>
+</form>
+-->
+
+
+<!--
+  <div class="row">
+    <div class="col-3">
+      <div class="nav flex-column nav-pills" id="v-pills-tab" role="tablist" aria-orientation="vertical">
+        <a class="nav-link active" id="v-pills-home-tab" data-toggle="pill" href="#v-pills-home" role="tab" aria-controls="v-pills-home" aria-selected="true">Todos</a>
+        {% for cadaHabilidad in habilidadesCursos %}
+        <a class="nav-link" id="v-pills-settings-tab" data-toggle="pill" href="#v-pills-settings" role="tab" aria-controls="v-pills-settings" aria-selected="false">
+          {{cadaHabilidad.nombre}}
+        </a>
+
+        {% endfor %}
+
+
+
+      </div>
+    </div>
+    <div class="col-9">
+      <div class="tab-content" id="v-pills-tabContent">
+
+
+        <div class="container">
+          {% for cadaCurso in cursotomado_list %}
+              {% if forloop.counter0|divisibleby:3 %}
+                {% if not forloop.first  %}</div>{% endif %}
+                <div class="row my-3">
+              {% endif %}
+        
+              <div class="col-md-4">
+                  <div class="card text-center h-100">
+                      <a href="#">
+                        <div class="card-block">
+                            <h5 class="card-title"> 
+                                <a href="#"> {{cadaCurso.nombre}} </a> </h5>
+                            <div class="mb-1 text-muted">{{cadaCurso.fechaExpedicion}}</div>
+                            <h2>
+                                <img class="rounded-circle"  {% if cadaCurso.logoExtra.imagen.url %} src="{{cadaCurso.logoExtra.imagen.url}}"  {% else %}  src="{{cadaCurso.empresaEmisora.imagen.url}}"  {% endif %}   alt="Generic placeholder image" width="140" height="140">
+                            </h2>
+                        </div>
+                        <div class="row px-2 no-gutters">
+                          <div class="col-12">
+                            <p><a href="http://google.com">Más información</a></p>
+                          </div>
+
+                            <div class="col-12">
+                              <p><a href="http://google.com">Más información</a></p>
+                            </div>
+                        </div>
+                     </a>
+                  </div>
+              </div>  
+              {% if forloop.last %}
+              </div>
+              {% endif %}
+          {% endfor %}
+        </div>
+
+
+      </div>
+    </div>
+  </div>
+
+-->
+
+
+{% endblock portafolioApartado %}

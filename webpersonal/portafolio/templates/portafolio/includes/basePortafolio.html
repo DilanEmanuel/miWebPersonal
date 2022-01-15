@@ -1,0 +1,20 @@
+{% extends 'base.html' %}
+
+{% load static %}
+
+{% block title %}Portafolio{% endblock %}
+
+
+{% block imagenPortada %} {{imagenPortada.url}}  {% endblock %}
+
+{% block cabezeras %}
+    <h1 style="font-size:40px;" >{{apartadoPortafolio}}</h1>
+    <span class="subheading" style="color: aliceblue;"> {% block linkRegreso %}{% endblock %}  </span>
+    
+
+{% endblock %}
+
+{% block content %}
+    {% block portafolioApartado %}   {% endblock %}
+    {% include 'portafolio/includes/paginacion.html' %}
+{% endblock %}

@@ -30,17 +30,17 @@
         <div class="collapse navbar-collapse" id="navbarResponsive">
           <ul class="navbar-nav ml-auto">
             <li class="nav-item" >
-              <a class="nav-link" href="{% url 'about' %}" style="font-size:15px;" >{{NOMBRE|truncatechars:15}}</a>
+              <a class="nav-link" href="{% url 'about_me_app:about' %}" style="font-size:15px;" >{{NOMBRE|truncatechars:15}}</a>
             </li>
             <li class="nav-item" >
-              <a class="nav-link" href="{% url 'portafolio' %}" style="font-size:15px;" >Portafolio</a>
+              <a class="nav-link" href="{% url 'portafolio_app:portafolio' %}" style="font-size:15px;" >Portafolio</a>
             </li>
             <li class="nav-item">
-              <a class="nav-link" href="{% url 'contact' %}" style="font-size:15px;">Contacto</a>
+              <a class="nav-link" href="{% url 'contacto_app:contact' %}" style="font-size:15px;">Contacto</a>
             </li>
 
             <li>
-              <a class="btn btn-primary btn-sm"  style="font-size:15px;" href="{% url 'descargar-curriculum' %}" >Descargar CV</a>
+              <a class="btn btn-primary btn-sm"  style="font-size:15px;" href="{% url 'about_me_app:descargar-curriculum' %}" >Descargar CV</a>
             </li>
 
           </ul>

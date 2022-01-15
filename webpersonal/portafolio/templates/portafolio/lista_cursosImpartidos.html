@@ -1,0 +1,25 @@
+{% extends 'portafolio/includes/basePortafolio.html' %}
+{% load static %}
+
+{%  block linkRegreso %} 
+<a href="{% url 'portafolio_app:portafolio' %}#cursos_impartidos">Regresar al portafolio </a>
+{% endblock %}
+
+{% block portafolioApartado %}
+
+<div class="container marketing">
+  <div class="row">
+    {% for cadaCurso in cursoimpartido_list %}
+    <div class="col-lg-4">
+      <img class="rounded-circle"  {% if cadaCurso.logoExtra.imagen.url %} src="{{cadaCurso.logoExtra.imagen.url}}"  {% else %}  src="{{cadaCurso.empresaEmisora.imagen.url}}"  {% endif %} alt="Generic placeholder image" width="140" height="140">
+      <h2>{{cadaCurso.nombre}}</h2>
+      <p class="card-text"><small class="text-muted">{{cadaCurso.fechaInicio}} {% if cadaCurso.fechaFinalizacion %} -{{cadaCurso.fechaFinalizacion}}  {% endif %} </small></p>
+      <p class="card-text"><small class="text-muted"> Duracion: {{cadaCurso.duracionHoras}} horas</small></p>
+      <p class="card-text">{{cadaCurso.descripccion|safe|truncatechars:200}}</p>
+      <p><a href="http://google.com">Más información</a></p>
+    </div><!-- /.col-lg-4 -->
+    {% endfor %}
+  </div><!-- /.row -->
+</div><!-- /.container -->
+
+{% endblock portafolioApartado %}

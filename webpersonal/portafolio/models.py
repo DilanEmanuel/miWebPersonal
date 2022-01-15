@@ -60,6 +60,15 @@ class Logo(models.Model):
     def __str__(self):
         return self.nombre
 
+class Habilidad(models.Model):
+    nombre=models.CharField(verbose_name="Nombre",max_length=100)
+
+    class Meta:
+        verbose_name="Habilidad"
+        verbose_name_plural="Habilidades"
+
+    def __str__(self):
+        return self.nombre
 
 
 class Curso(models.Model):
@@ -87,6 +96,7 @@ class Curso(models.Model):
 class CursoTomado(Curso):
     fechaExpedicion=models.DateField(verbose_name="Fecha de expedicion del curso ",default=now,null=False,blank=False)
     fechaCaducidad=models.DateField(verbose_name="Fecha de cadocidad(solo si tiene)",null=True,blank=True)
+    habilidades=models.ManyToManyField(Habilidad,verbose_name="Habilidades que otorgan el curso:",related_name="get_cursos")
 
     class Meta:
         verbose_name="Curso tomado"

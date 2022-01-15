@@ -50,7 +50,7 @@ class MensajeExito(TemplateView):
 class FormularioContacto(FormView):
     template_name='contacto/contact.html'
     form_class=FormularioContacto
-    success_url=reverse_lazy('mensajeContactoExito')
+    success_url=reverse_lazy('contacto_app:mensajeContactoExito')
     #success_url="contact/exitoRegistro.html"
 
     def get_context_data(self,**kwargs):

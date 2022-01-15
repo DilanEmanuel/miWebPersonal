@@ -22,12 +22,12 @@ https://www.codeply.com/go/T0SPcWuyBL/bootstrap-4-row-of-cards-with-icons
 -->
 
 <!--  P   R   O     Y      E    C       T       O      S    -->
-<div class="jumbotron p-3 p-md-5 text-white rounded bg-dark">
+<div id="proyectos" class="jumbotron p-3 p-md-5 text-white rounded bg-dark">
     <div class="col-md-12 px-0">
       <h1 class="display-4 font-italic">Proyectos</h1>
       <p class="lead my-3">Algunos  proyectos en los que he trabajado en diferentes cursos asi como 
         tambien proyectos personales</p> </p>
-      <p><a class="btn btn-secondary" href="#" role="button">Ver todos los proyectos &raquo;</a></p>
+      <p><a class="btn btn-secondary" href="{% url 'portafolio_app:proyectos' %}" role="button">Ver todos los proyectos &raquo;</a></p>
     </div>
 </div>
 
@@ -48,13 +48,13 @@ https://www.codeply.com/go/T0SPcWuyBL/bootstrap-4-row-of-cards-with-icons
 <br>
 
 <!--  E   S   P   E   C   I     A    L     I      Z      A       C      I      O        N        E      S    -->
-<div class="jumbotron p-3 p-md-5 text-white rounded bg-dark">
+<div   id="especializaciones" class="jumbotron p-3 p-md-5 text-white rounded bg-dark">
   <div class="col-md-12 px-0">
     <h1 class="display-4 font-italic">Especializaciones </h1>
     <p class="lead my-3">Una especializacion consta de diferentes cursos que aumentan de nivel de forma progresiva, el objetivo
       de una especializacion es profundizar en el tema.</p>
 
-    <p><a class="btn btn-secondary" href="#" role="button">Ver todas las especializaciones &raquo;</a></p>
+    <p><a class="btn btn-secondary" href="{% url 'portafolio_app:especializacion-lista' %}" role="button">Ver todas las especializaciones &raquo;</a></p>
   </div>
 </div>
 
@@ -67,7 +67,7 @@ https://www.codeply.com/go/T0SPcWuyBL/bootstrap-4-row-of-cards-with-icons
       <p class="card-text"><small class="text-muted">{{cadaEspecializacion.fechaExpedicion}}</small></p>
       <p class="card-text"><small class="text-muted"> Duracion: {{cadaEspecializacion.duracionHoras}} horas</small></p>
       <p class="card-text">{{cadaEspecializacion.descripccion|safe|truncatechars:200}}</p>
-      <p><a href="http://google.com">Más información</a></p>
+      <p><a href="#">Más información</a></p>
     </div><!-- /.col-lg-4 -->
     {% endfor %}
   </div><!-- /.row -->
@@ -97,17 +97,18 @@ https://www.codeply.com/go/T0SPcWuyBL/bootstrap-4-row-of-cards-with-icons
 
 
 <!--  C   U   R   S   O    S             I   M    P    A     R    T     I      D     O       S  -->
-<div class="jumbotron p-3 p-md-5 text-white rounded bg-dark">
+
+<div  id="cursos_impartidos" class="jumbotron p-3 p-md-5 text-white rounded bg-dark">
     <div class="col-md-12 px-0">
       <h1 class="display-4 font-italic">Cursos impartidos </h1>
       <!--
       <p class="lead my-3">A continuación muestro algunos de los cursos en los cuales yo he sido instructor
         ,sin embargo para ver todas los cursos que he impartido deberas dar clic sobre el siguiente boton</p>
       -->
-
-        <p><a class="btn btn-secondary" href="#" role="button">Ver todos los cursos impartidos &raquo;</a></p>
+        <p><a class="btn btn-secondary" href="{% url 'portafolio_app:cursosImpartidos-lista' %}" role="button">Ver todos los cursos impartidos &raquo;</a></p>
     </div>
 </div>
+
 
 <div class="container marketing">
     <div class="row">
@@ -127,13 +128,14 @@ https://www.codeply.com/go/T0SPcWuyBL/bootstrap-4-row-of-cards-with-icons
 
 
 <!--  C   U   R   S   O    S         T    O    M    A   D    O    S  -->
-<div class="jumbotron p-3 p-md-5 text-white rounded bg-dark">
+
+<div  id="cursos_tomados" class="jumbotron p-3 p-md-5 text-white rounded bg-dark">
     <div class="col-md-12 px-0">
       <h1 class="display-4 font-italic">Cursos tomados </h1>
       <!--
       <p class="lead my-3">A continuación presento  los certificados que he tomado </p>
       -->
-      <p><a class="btn btn-secondary" href="#" role="button">Ver todos los cursos que he tomado &raquo;</a></p>
+      <p><a class="btn btn-secondary" href="{% url 'portafolio_app:cursosTomados-lista' %}" role="button">Ver todos los cursos que he tomado &raquo;</a></p>
     </div>
 </div>
 
@@ -170,8 +172,7 @@ https://www.codeply.com/go/T0SPcWuyBL/bootstrap-4-row-of-cards-with-icons
              </a>
           </div>
       </div>
-
-
+      
       {% if forloop.last %}
       </div>
       {% endif %}
@@ -200,7 +201,11 @@ https://www.codeply.com/go/T0SPcWuyBL/bootstrap-4-row-of-cards-with-icons
     <img src="{{cadaExperiencia.institucion.imagen.url}}" width="60" height="60" alt="" class="mr-2 rounded">
     
     <div class="border-bottom border-gray pb-2 mb-0">
-      <h3>{{cadaExperiencia.institucion}}</h3>
+      <h3>
+        <a href="{{cadaExperiencia.institucion.linkVista}}">
+          {{cadaExperiencia.institucion}}
+        </a>
+      </h3>
       <small class="text-muted">{{cadaExperiencia.fechaInicio}} {% if cadaExperiencia.fechaFinalizacion %} - {{cadaExperiencia.fechaFinalizacion}} {% else %} - Actualidad{% endif %} </small>
     </div>
     
