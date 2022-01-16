@@ -1,7 +1,58 @@
 from ast import keyword
 from django.shortcuts import render
-from django.views.generic import TemplateView,ListView
+from django.views.generic import TemplateView,ListView,DetailView
 from .models import Apartado_Portafolio,Habilidad,Especilizacion,Proyecto,CursoImpartido,CursoTomado,ExperienciaLaboral
+
+
+
+class ProyectoDetailView(DetailView):
+    model = Proyecto
+    template_name="portafolio/detalle_proyecto.html"
+
+    def get_context_data(self,**kwargs):
+        context=super().get_context_data(**kwargs)
+        datos=Apartado_Portafolio.objects.last()
+
+        if datos:   
+            context['imagenPortada']=datos.imagenPortada
+        return context
+
+class EspecilizacionDetailView(DetailView):
+    model = Especilizacion
+    template_name="portafolio/detalle_especializacion.html"
+
+    def get_context_data(self,**kwargs):
+        context=super().get_context_data(**kwargs)
+        datos=Apartado_Portafolio.objects.last()
+
+        if datos:   
+            context['imagenPortada']=datos.imagenPortada
+        return context
+
+class CursoImpartidoDetailView(DetailView):
+    model = CursoImpartido
+    template_name="portafolio/detalle_cursoImpartido.html"
+
+    def get_context_data(self,**kwargs):
+        context=super().get_context_data(**kwargs)
+        datos=Apartado_Portafolio.objects.last()
+
+        if datos:   
+            context['imagenPortada']=datos.imagenPortada
+        return context
+
+
+class CursoTomadoDetailView(DetailView):
+    model = CursoTomado
+    template_name="portafolio/detalle_cursoTomado.html"
+
+    def get_context_data(self,**kwargs):
+        context=super().get_context_data(**kwargs)
+        datos=Apartado_Portafolio.objects.last()
+
+        if datos:   
+            context['imagenPortada']=datos.imagenPortada
+        return context
 
 
 class ProyectoListView(ListView):

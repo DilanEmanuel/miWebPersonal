@@ -83,8 +83,8 @@ class Curso(models.Model):
     urlCredencial=models.URLField(verbose_name="URL de la credencial",max_length=200,null=True,blank=True)
     idCredencial=models.CharField(verbose_name="ID de la credencial",max_length=200,null=True,blank=True)
 
-    curriculum=models.FileField(verbose_name="PDF del certificado",upload_to="certificados")
-    descripccion=models.TextField()
+    curriculum=models.FileField(verbose_name="PDF del certificado",upload_to="certificados",null=True,blank=True)
+    descripccion=RichTextUploadingField(verbose_name="Descripccion: ",default="")
     urlAccesoCurso=models.URLField(verbose_name="URL de acceso al curso",max_length=200,null=True,blank=True)
     duracionHoras=models.PositiveSmallIntegerField(verbose_name="Duracion del curso en horas")
 
@@ -137,7 +137,7 @@ class Especilizacion(Curso):
 
 
 class EspecilizacionRelacion(models.Model):
-    cursotomado=models.ForeignKey(Especilizacion,on_delete=models.CASCADE,verbose_name="Esepecializacion:")
+    cursotomado=models.ForeignKey(Especilizacion,on_delete=models.CASCADE,verbose_name="Esepecializacion:",related_name="getCursosOrdenados")
     especilizacion=models.ForeignKey(CursoTomado,on_delete=models.CASCADE,verbose_name="Curso:")
     numeroCurso=models.PositiveSmallIntegerField(verbose_name="numero de curso")
 
@@ -146,7 +146,7 @@ class EspecilizacionRelacion(models.Model):
         verbose_name_plural="Especializacion relacion curso"
 
     def __str__(self):
-        return "Curso: {}) {} de la especializacion: {}".format(self.numeroCurso,self.cursotomado.nombre,self.especilizacion.nombre)
+        return "Curso {} : {}".format(self.numeroCurso,self.especilizacion.nombre)
 
 class ActividadRealizada(models.Model):
     descripccion=models.TextField(verbose_name="Descripccion de la actividad")

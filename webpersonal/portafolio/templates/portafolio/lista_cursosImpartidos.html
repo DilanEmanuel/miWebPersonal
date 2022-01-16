@@ -16,7 +16,8 @@
       <p class="card-text"><small class="text-muted">{{cadaCurso.fechaInicio}} {% if cadaCurso.fechaFinalizacion %} -{{cadaCurso.fechaFinalizacion}}  {% endif %} </small></p>
       <p class="card-text"><small class="text-muted"> Duracion: {{cadaCurso.duracionHoras}} horas</small></p>
       <p class="card-text">{{cadaCurso.descripccion|safe|truncatechars:200}}</p>
-      <p><a href="http://google.com">Más información</a></p>
+      <p><a href="{% url 'portafolio_app:cursoImpartido-detail' cadaCurso.id %}">Más información</a></p>
+
     </div><!-- /.col-lg-4 -->
     {% endfor %}
   </div><!-- /.row -->

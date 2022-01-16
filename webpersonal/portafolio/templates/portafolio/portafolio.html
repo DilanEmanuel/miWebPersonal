@@ -40,7 +40,7 @@ https://www.codeply.com/go/T0SPcWuyBL/bootstrap-4-row-of-cards-with-icons
           <h5 class="card-title">{{cadaProyecto.titulo}}</h5>
           <p class="card-text"><small class="text-muted">{{cadaProyecto.terminoProyecto}}</small></p>
           <p class="card-text">{{cadaProyecto.descripccion|safe|truncatechars:200}}</p>
-          <p><a href="http://google.com">Más información</a></p>
+          <p><a href="{% url 'portafolio_app:proyecto-detail' cadaProyecto.id %}">Más información</a></p>
         </div>
       </div>
   {% endfor %}
@@ -67,7 +67,7 @@ https://www.codeply.com/go/T0SPcWuyBL/bootstrap-4-row-of-cards-with-icons
       <p class="card-text"><small class="text-muted">{{cadaEspecializacion.fechaExpedicion}}</small></p>
       <p class="card-text"><small class="text-muted"> Duracion: {{cadaEspecializacion.duracionHoras}} horas</small></p>
       <p class="card-text">{{cadaEspecializacion.descripccion|safe|truncatechars:200}}</p>
-      <p><a href="#">Más información</a></p>
+      <p><a href="{% url 'portafolio_app:especializacion-detail' cadaEspecializacion.id %}">Más información</a></p>
     </div><!-- /.col-lg-4 -->
     {% endfor %}
   </div><!-- /.row -->
@@ -119,7 +119,7 @@ https://www.codeply.com/go/T0SPcWuyBL/bootstrap-4-row-of-cards-with-icons
         <p class="card-text"><small class="text-muted">{{cadaCurso.fechaInicio}} {% if cadaCurso.fechaFinalizacion %} -{{cadaCurso.fechaFinalizacion}}  {% endif %} </small></p>
         <p class="card-text"><small class="text-muted"> Duracion: {{cadaCurso.duracionHoras}} horas</small></p>
         <p class="card-text">{{cadaCurso.descripccion|safe|truncatechars:200}}</p>
-        <p><a href="http://google.com">Más información</a></p>
+        <p><a href="{% url 'portafolio_app:cursoImpartido-detail' cadaCurso.id %}">Más información</a></p>
       </div><!-- /.col-lg-4 -->
       {% endfor %}
     </div><!-- /.row -->
@@ -161,7 +161,8 @@ https://www.codeply.com/go/T0SPcWuyBL/bootstrap-4-row-of-cards-with-icons
                 </div>
                 <div class="row px-2 no-gutters">
                   <div class="col-12">
-                    <p><a href="http://google.com">Más información</a></p>
+                    <p><a href="{% url 'portafolio_app:cursoTomado-detail' cadaCurso.id %}">Más información</a></p>
+
                   </div>
                   <!--
                     <div class="col-12">

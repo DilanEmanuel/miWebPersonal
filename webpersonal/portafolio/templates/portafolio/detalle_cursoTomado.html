@@ -1,0 +1,93 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block title %}Portafolio{% endblock %}
+{% block imagenPortada %} {{imagenPortada.url}}  {% endblock %}
+
+
+<!--
+
+
+    https://www.bootdey.com/snippets/view/bs5-team-member-details
+    https://www.bootdey.com/snippets/view/user-profile-details
+
+
+-->
+
+{% block cabezeras %}
+    <h1 style="font-size:40px;" >Curso tomado</h1>
+    
+{% endblock %}
+
+{% block content %}
+
+
+<div class="container">
+    <div class="row justify-content-center">
+        <div class="col-md-7 col-lg-4 mb-5 mb-lg-0 wow fadeIn">
+            <div class="card border-0 shadow">
+                <img  {% if object.logoExtra.imagen.url %} src="{{object.logoExtra.imagen.url}}"  {% else %}  src="{{object.empresaEmisora.imagen.url}}"  {% endif %} alt="...">
+                <div class="card-body p-1-9 p-xl-5">
+                    <ul class="list-unstyled mb-4">
+                        <li class="mb-3">
+                            <a {% if object.urlCredencial %} href="{{object.urlCredencial}}"  {% else %}  href="{{object.curriculum.url}}" {% endif %}>
+                                <i class="fa fa-address-card-o display-25 me-3 text-secondary"> Ver certificado</i> 
+                            </a>
+                        </li>
+
+                        {% if object.urlAccesoCurso %}
+                        <li class="mb-3">
+                            <a href="{{object.urlAccesoCurso}}">
+                                <i class="fa fa-plane display-25 me-3 text-secondary"> Ir a curso</i>
+
+                            </a>
+                        </li>
+                        {% endif %}
+
+
+                    </ul>
+        
+                    <ul class="list-unstyled mb-4 mt-2">
+                        <li class="mb-3"><i class="fa fa-clock-o display-25 me-3 text-secondary"> Duración en horas:{{object.duracionHoras}}</i></li>
+                        <li class="mb-3"><i class="fa fa-calendar display-25 me-3 text-secondary"> Fecha de expedicion: {{object.fechaExpedicion|date:"F/Y"}}</i></li>
+
+                        {% if object.fechaCaducidad %}
+                        <li class="mb-3"><i class="fa fa-calendar display-25 me-3 text-secondary"> Fecha de caducación: {{object.fechaCaducidad}}</i></li>
+                        {% endif %}
+                    </ul>
+
+                    <div class="mb-4">
+                        <h3 class="h4 mb-0">Curso dado por:</h3>
+                        {% if object.empresaEmisora %}
+                        <a href="{{object.empresaEmisora.linkVista}}" class="badge badge-dark mr-1 my-1">{{object.empresaEmisora|truncatechars:30}}</a>
+                        {% endif %}
+
+                        {% if object.logoExtra %}
+                        <a href="{{object.logoExtra.linkVista}}" class="badge badge-dark mr-1 my-1">{{object.logoExtra|truncatechars:30}}</a>
+                        {% endif %}
+                    </div>
+
+                    <div class="mb-4">
+                        <h3 class="h4 mb-0">Habilidades:</h3>
+                        {% for cadaHabilidad in object.habilidades.all %}
+                        <a  href="{% url 'portafolio_app:cursosTomados-lista' %}?habilidad={{cadaHabilidad.id}}" class="badge badge-primary mr-1 my-1">{{cadaHabilidad|truncatechars:30}}</a>
+                        {% endfor %}
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="col-lg-8">
+            <div class="ps-lg-1-6 ps-xl-5">
+                <div class="mb-5 wow fadeIn">
+                    <div class="text-start mb-1-6 wow fadeIn">
+                        <h2 class="h1 mb-0 text-primary">{{object.nombre}}</h2>
+                    </div>
+                    <p>{{object.descripccion|safe}}</p>
+                  
+                </div>
+
+            </div>
+        </div>
+    </div>
+</div>
+
+{% endblock %}
