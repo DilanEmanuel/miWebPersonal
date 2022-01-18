@@ -18,7 +18,7 @@ urlpatterns=[
     # DetailView....
 
     path('proyecto/<pk>/detalle/',views.ProyectoDetailView.as_view(),name="proyecto-detail"),
-    path('especializacion/<pk>/detalle/',views.EspecilizacionDetailView.as_view(),name="especializacion-detail"),
+    path('especializacion/<pk>/detalle/',views.EspecializacionDetailView.as_view(),name="especializacion-detail"),
     path('cursoImpartido/<pk>/detalle/',views.CursoImpartidoDetailView.as_view(),name="cursoImpartido-detail"),
     path('cursoTomado/<pk>/detalle/',views.CursoTomadoDetailView.as_view(),name="cursoTomado-detail"),
 

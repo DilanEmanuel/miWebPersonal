@@ -3,11 +3,7 @@ from about_me.functions import Apartado
 
 # Create your models here.
 class Apartado_Contacto(Apartado):
-
-    # medios de contacto
-    correo=models.EmailField()
-    numeroTelefonico=models.CharField(max_length=50)
-    indicacionesContacto=models.TextField(verbose_name='Indicaciones para que se comuniquen contigo:')
+    pass
 
     class Meta:
         verbose_name="Presentacion de la pagina de: contacto"

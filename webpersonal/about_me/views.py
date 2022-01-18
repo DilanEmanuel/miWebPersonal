@@ -54,7 +54,7 @@ class AboutMe(TemplateView):
 
     def get_context_data(self,**kwargs):
         context=super().get_context_data(**kwargs)
-        datos=Apartado_AboutMe.objects.last()
+        datos=Apartado_AboutMe.objects.get_apartado()
 
         if datos:
             context['imagenPortada']=datos.imagenPortada

@@ -23,7 +23,7 @@ urlpatterns = [
     path('', include('about_me.urls')   ),
     path('', include('contacto.urls')   ),
     path('', include('portafolio.urls') ),
-    #path( 'autor/',include('autor.urls') ),
+    path('', include('blog.urls') ),
     re_path(r'^ckeditor/', include('ckeditor_uploader.urls')),
 ]
 

@@ -1,8 +1,5 @@
-from statistics import mode
-from tabnanny import verbose
 from django.db import models
 from ckeditor_uploader.fields import RichTextUploadingField
-from django.db.models.deletion import CASCADE
 from about_me.functions import Apartado
 from django.utils.timezone import now
 
@@ -18,8 +15,8 @@ class Proyecto(models.Model):
     prioridad=models.PositiveSmallIntegerField(verbose_name="Prioridad de aparicion",default=0)
     preparadoParaMostrar=models.BooleanField(verbose_name="¿La publicación esta lista para ser mostrada? ",default=False)
 
-    descripccion=RichTextUploadingField(verbose_name="Descripccion del proyecto:",default="")
-
+    descripccion=models.TextField(verbose_name="Descripccion del proyecto:",default="")
+    contenido=RichTextUploadingField(verbose_name="Descripccion mas extensa de lo que que trata el proyecto : ",default="",null=True)
 
     # 'auto_now_add' añadira la hora a la cual se creado el modelo
     #fechaCreacion=models.DateTimeField(auto_now_add=True)
@@ -41,7 +38,6 @@ class Proyecto(models.Model):
 
 
 class Apartado_Portafolio(Apartado):
-    proyectos=models.ManyToManyField(Proyecto)
 
     class Meta:
         verbose_name="Presentacion de la pagina del: portafolio"
@@ -84,13 +80,14 @@ class Curso(models.Model):
     idCredencial=models.CharField(verbose_name="ID de la credencial",max_length=200,null=True,blank=True)
 
     curriculum=models.FileField(verbose_name="PDF del certificado",upload_to="certificados",null=True,blank=True)
-    descripccion=RichTextUploadingField(verbose_name="Descripccion: ",default="")
+    descripccion=models.TextField(verbose_name="Descripccion: ",default="")
+    contenido=RichTextUploadingField(verbose_name="Descripccion mas extensa de lo que que trato el curso y aprendiste : ",default="",null=True)
     urlAccesoCurso=models.URLField(verbose_name="URL de acceso al curso",max_length=200,null=True,blank=True)
     duracionHoras=models.PositiveSmallIntegerField(verbose_name="Duracion del curso en horas")
 
 
     def __str__(self):
-        return "Curso: "+self.nombre
+        return "{}"+self.nombre
 
 
 class CursoTomado(Curso):
@@ -117,10 +114,10 @@ class CursoImpartido(Curso):
         # del mas antigua a las nuevo NO USAR '-'
         ordering=['prioridad']
 
-class Especilizacion(Curso):
+class Especializacion(Curso):
     fechaExpedicion=models.DateField(verbose_name="Fecha de expedicion del curso: ",default=now,null=False,blank=False)
     fechaCaducidad=models.DateField(verbose_name="Fecha de cadocidad(solo si tiene):",default=now,null=True,blank=True)
-    cursos=models.ManyToManyField(CursoTomado,through="EspecilizacionRelacion")
+    cursos=models.ManyToManyField(CursoTomado,through="EspecializacionRelacion")
     totalCursos=models.PositiveSmallIntegerField(verbose_name="Numero de cursos de la especializacion:",default=0)
 
     class Meta:
@@ -132,21 +129,26 @@ class Especilizacion(Curso):
 
 
     def __str__(self):
-        return "Especializacion: {}".format(self.nombre)
+        return "{}".format(self.nombre)
 
 
 
-class EspecilizacionRelacion(models.Model):
-    cursotomado=models.ForeignKey(Especilizacion,on_delete=models.CASCADE,verbose_name="Esepecializacion:",related_name="getCursosOrdenados")
-    especilizacion=models.ForeignKey(CursoTomado,on_delete=models.CASCADE,verbose_name="Curso:")
+class EspecializacionRelacion(models.Model):
+    cursotomado=models.ForeignKey(Especializacion,on_delete=models.CASCADE,verbose_name="Especializacion:",related_name="getCursosOrdenados")
+    especializacion=models.ForeignKey(CursoTomado,on_delete=models.CASCADE,verbose_name="Curso:")
     numeroCurso=models.PositiveSmallIntegerField(verbose_name="numero de curso")
 
     class Meta:
         verbose_name="Especializacion relacion curso"
         verbose_name_plural="Especializacion relacion curso"
+        # del mas nuevo al mas antiguo usar '-'
+        # del mas antigua a las nuevo NO USAR '-'
+
+        # ordenando por nombre de especializacion y despues por el numero de curso...
+        ordering=['cursotomado','numeroCurso']
 
     def __str__(self):
-        return "Curso {} : {}".format(self.numeroCurso,self.especilizacion.nombre)
+        return "Curso {} : {}".format(self.numeroCurso,self.especializacion.nombre)
 
 class ActividadRealizada(models.Model):
     descripccion=models.TextField(verbose_name="Descripccion de la actividad")

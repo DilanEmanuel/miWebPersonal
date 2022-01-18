@@ -11,13 +11,13 @@
 
 <div class="container marketing">
     <div class="row">
-      {% for cadaEspecializacion in especilizacion_list %}
+      {% for cadaEspecializacion in especializacion_list %}
       <div class="col-lg-4">
         <img class="rounded-circle"  {% if cadaEspecializacion.logoExtra.imagen.url %} src="{{cadaEspecializacion.logoExtra.imagen.url}}"  {% else %}  src="{{cadaEspecializacion.empresaEmisora.imagen.url}}"  {% endif %} alt="Generic placeholder image" width="140" height="140">
         <h2>{{cadaEspecializacion.nombre}}</h2>
         <p class="card-text"><small class="text-muted">{{cadaEspecializacion.fechaExpedicion}}</small></p>
         <p class="card-text"><small class="text-muted"> Duracion: {{cadaEspecializacion.duracionHoras}} horas</small></p>
-        <p class="card-text">{{cadaEspecializacion.descripccion|safe|truncatechars:200}}</p>
+        <p class="card-text">{{cadaEspecializacion.descripccion|safe|truncatechars:120}}</p>
         <p><a href="{% url 'portafolio_app:especializacion-detail' cadaEspecializacion.id %}">Más información</a></p>
       </div><!-- /.col-lg-4 -->
       {% endfor %}

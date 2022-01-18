@@ -1,0 +1,197 @@
+
+<!--
+
+    https://www.bootdey.com/snippets/view/Blog-List-App#html
+
+    https://www.bootdey.com/snippets/tagged/blog
+
+-->
+
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}Acerca de{% endblock %}
+
+{% block imagenPortada %} {{imagenPortada.url}}  {% endblock %}
+
+
+{% block cabezeras %}
+    <h1 style="font-size:40px;" >Blog personal</h1>
+{% endblock %}
+
+{% block content %}
+
+
+<!-- (INICIO) BLOG -->
+<div id="main-content" class="blog-page">
+    <div class="container">
+        <div class="row clearfix">
+
+            
+            <!-- SECCION DONDE SE MUESTRAN LOS ARTICULOS  -->
+            <div class="col-lg-8 col-md-12 left-box">
+
+
+                {% for cadaArticulo in articulodeblog_list %}
+
+
+                <!-- mostrando articulo INICIO -->
+                <div class="card single_post text-center">
+                    <div class="body">
+                        <div class="img-post">
+                            <!-- SEGURENCIA DE TAMAÑO width="800" height="280"   -->
+                            <img class="d-block img-fluid" src="{{cadaArticulo.imagen.url}}" width="800" height="280" alt="First slide">
+                        </div>
+                        <h3><a href="{% url 'blog_app:blog-articuloDetail' cadaArticulo.id %}" >{{cadaArticulo.titulo}}</a></h3>
+                        <p class="card-text"><small class="text-muted">{{cadaArticulo.created|date:"d/F/Y"}}</small></p>
+                        <p>{{cadaArticulo.descripccion|truncatechars:120}}</p>
+                    </div>
+                    <div class="footer">
+                        <div class="actions">
+                            <a href="{% url 'blog_app:blog-articuloDetail' cadaArticulo.id %}" class="btn btn-outline-secondary mb-2">Continue Reading</a>
+                        </div>
+                    </div>
+                </div>
+                 <!-- mostrando articulo FIN -->
+            
+                {% endfor %}
+
+
+
+
+                <!-- Menú de paginación -->
+                {% if is_paginated %}
+                <nav aria-label="Page navigation">
+                    <ul class="pagination justify-content-center">
+                    {% if page_obj.has_previous %}
+                        <li class="page-item ">
+                        <a class="page-link" href="?page={{ page_obj.previous_page_number }}">&laquo;</a>
+                        </li>
+                    {% else %}
+                        <li class="page-item disabled">
+                        <a class="page-link" href="#" tabindex="-1">&laquo;</a>
+                        </li>
+                    {% endif %}
+                    {% for i in paginator.page_range %}
+                        <li class="page-item {% if page_obj.number == i %}active{% endif %}">
+                        <a class="page-link" href="?page={{ i }}">{{ i }}</a>
+                        </li>
+                    {% endfor %}
+                    {% if page_obj.has_next %}
+                        <li class="page-item ">
+                        <a class="page-link" href="?page={{ page_obj.next_page_number }}">&raquo;</a>
+                        </li>
+                    {% else %}
+                        <li class="page-item disabled">
+                        <a class="page-link" href="#" tabindex="-1">&raquo;</a>
+                        </li>
+                    {% endif %}
+                    </ul>
+                </nav>
+                {% endif %}
+                 <!-- Menú de FIN -->
+                           
+                 
+
+            </div>
+            <!-- FIN DE SECCION DONDE SE MUESTRAN LOS ARTICULOS  -->
+
+
+            <!-- (INICIO) SECCION LATERAL EN DONDE SE MUSTRAN LAS CATEGORIAS, LOS RECIENTES Y DESTACADOS -->
+            <div class="col-lg-4 col-md-12 right-box">
+                <div class="card">
+                    <div class="body search">
+                        <form action="{% url 'blog_app:blog-inicio' %}">{% csrf_token %}
+                        <div class="input-group m-b-0">
+                                <button type="submit">
+                                    <span class="input-group-text"><i class="fa fa-search"></i></span>
+                                </button>
+                                <input id="palabraClave" name="palabraClave" type="text" class="form-control" placeholder="Buscar por nombre de articulo"
+                                 required="required" pattern="{1,20}">                           
+                        </div>
+                        </form>
+                                     
+                    </div>
+                </div>
+
+                <!-- APARTADO DE CATEGORIAS -->
+                <div class="card mt-4">
+                    <div class="card-header mt-2">
+                        <h2 class="h3 mb-0 text-primary">Categorias</h2>
+                    </div>
+                    <div class="card-body text-center">
+                        <ul class="list-unstyled categories-clouds m-b-0 mt-2"  style="max-height: 300px;  overflow:scroll;">
+                            <li><a href="{% url 'blog_app:blog-inicio' %}">Todos los articulos</a></li>
+                            {% for cadaCategoria in categorias %}
+                            <li>  <a href="{% url 'blog_app:blog-inicio' %}?categoria={{cadaCategoria.id}}">{{cadaCategoria}}</a> </li>
+                            {% endfor %}
+
+                        </ul>
+                    </div>
+                </div>
+                <!-- FIN DE  APARTADO DE CATEGORIAS -->
+
+
+                <!-- (INICIO) APARTADO DE 'LO MAS RECIENTE' -->
+                <div class="card mt-4">
+                    <div class="card-header mt-2">
+                        <h2 class="h3 mb-0 text-primary">Los mas reciente</h2>                        
+                    </div>
+                    <div class="body widget popular-post">
+                        <div class="row">
+                            <div class="col-lg-12">
+
+                                {% for cadaArticulo in articulosRecientes %}
+                                <!-- (INICIO) ITEM UNO -->
+                                <div class="card-body text-center single_post">
+                                    <h5><a href="{% url 'blog_app:blog-articuloDetail' cadaArticulo.id %}" >{{cadaArticulo.titulo}}</a></h5>
+                                    <p class="card-text"><small class="text-muted">{{cadaArticulo.created|date:"d/F/Y"}}</small></p>
+                                   <div class="img-post">
+                                       <!-- SEGURENCIA DE TAMAÑO width="280" height="280"   -->
+                                       <img src="{{cadaArticulo.imagen.url}}"  width="280" height="280" alt="Awesome Image">                                        
+                                   </div>                                            
+                               </div>
+                               {% endfor %}
+
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <!-- (FIN) APARTADO DE 'LO MAS RECIENTE' -->
+
+
+                <!-- (INICIO) APARTADO DE 'LO DESTACADO' -->
+                <div class="card mt-4">
+                    <div class="card-header mt-2">
+                        <h2 class="h3 mb-0 text-primary" >Destacados</h2>                        
+                    </div>
+                    <div class="body widget popular-post">
+                        <div class="row">
+                            <div class="col-lg-12">
+
+                                {% for cadaArticulo in articulosDestacados %}
+                                <!-- (INICIO) ITEM UNO -->
+                                <div class="card-body text-center single_post">
+                                    <h5><a href="{% url 'blog_app:blog-articuloDetail' cadaArticulo.id %}" >{{cadaArticulo.titulo}}</a></h5>
+                                    <p class="card-text"><small class="text-muted">{{cadaArticulo.created|date:"d/F/Y"}}</small></p>
+                                   <div class="img-post">
+                                       <!-- SEGURENCIA DE TAMAÑO width="280" height="280"   -->
+                                       <img src="{{cadaArticulo.imagen.url}}"  width="280" height="280" alt="Awesome Image">                                        
+                                   </div>                                            
+                               </div>
+                               {% endfor %}
+
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <!-- (FIN) APARTADO DE 'LO DESTACADO' -->
+
+            </div>
+            <!-- (FIN) SECCION LATERAL EN DONDE SE MUSTRAN LAS CATEGORIAS, LOS RECIENTES Y DESTACADOS -->
+        </div>
+    </div>
+</div>
+<!-- (FIN) BLOG -->
+
+{% endblock %}

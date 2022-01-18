@@ -39,7 +39,7 @@ https://www.codeply.com/go/T0SPcWuyBL/bootstrap-4-row-of-cards-with-icons
         <div class="card-body">
           <h5 class="card-title">{{cadaProyecto.titulo}}</h5>
           <p class="card-text"><small class="text-muted">{{cadaProyecto.terminoProyecto}}</small></p>
-          <p class="card-text">{{cadaProyecto.descripccion|safe|truncatechars:200}}</p>
+          <p class="card-text">{{cadaProyecto.descripccion|truncatechars:120}}</p>
           <p><a href="{% url 'portafolio_app:proyecto-detail' cadaProyecto.id %}">Más información</a></p>
         </div>
       </div>
@@ -66,7 +66,8 @@ https://www.codeply.com/go/T0SPcWuyBL/bootstrap-4-row-of-cards-with-icons
       <h2>{{cadaEspecializacion.nombre}}</h2>
       <p class="card-text"><small class="text-muted">{{cadaEspecializacion.fechaExpedicion}}</small></p>
       <p class="card-text"><small class="text-muted"> Duracion: {{cadaEspecializacion.duracionHoras}} horas</small></p>
-      <p class="card-text">{{cadaEspecializacion.descripccion|safe|truncatechars:200}}</p>
+      <p class="card-text">{{cadaEspecializacion.descripccion|truncatechars:120}}</p>
+      
       <p><a href="{% url 'portafolio_app:especializacion-detail' cadaEspecializacion.id %}">Más información</a></p>
     </div><!-- /.col-lg-4 -->
     {% endfor %}
@@ -118,7 +119,7 @@ https://www.codeply.com/go/T0SPcWuyBL/bootstrap-4-row-of-cards-with-icons
         <h2>{{cadaCurso.nombre}}</h2>
         <p class="card-text"><small class="text-muted">{{cadaCurso.fechaInicio}} {% if cadaCurso.fechaFinalizacion %} -{{cadaCurso.fechaFinalizacion}}  {% endif %} </small></p>
         <p class="card-text"><small class="text-muted"> Duracion: {{cadaCurso.duracionHoras}} horas</small></p>
-        <p class="card-text">{{cadaCurso.descripccion|safe|truncatechars:200}}</p>
+        <p class="card-text">{{cadaCurso.descripccion|truncatechars:120}}</p>
         <p><a href="{% url 'portafolio_app:cursoImpartido-detail' cadaCurso.id %}">Más información</a></p>
       </div><!-- /.col-lg-4 -->
       {% endfor %}
@@ -216,7 +217,7 @@ https://www.codeply.com/go/T0SPcWuyBL/bootstrap-4-row-of-cards-with-icons
   {% for cadaActividad in cadaExperiencia.actividades.all %}
     <div class="media text-muted pt-3">
       <p class="media-body pb-3 mb-0 small lh-125 border-bottom border-gray">
-        {{cadaActividad.descripccion}}
+        {{cadaActividad.descripccion|truncatechars:120}}
       </p>
     </div>
   {% endfor %}

@@ -1,7 +1,7 @@
 from ast import keyword
 from django.shortcuts import render
 from django.views.generic import TemplateView,ListView,DetailView
-from .models import Apartado_Portafolio,Habilidad,Especilizacion,Proyecto,CursoImpartido,CursoTomado,ExperienciaLaboral
+from .models import Apartado_Portafolio,Habilidad,Especializacion,Proyecto,CursoImpartido,CursoTomado,ExperienciaLaboral
 
 
 
@@ -11,19 +11,19 @@ class ProyectoDetailView(DetailView):
 
     def get_context_data(self,**kwargs):
         context=super().get_context_data(**kwargs)
-        datos=Apartado_Portafolio.objects.last()
+        datos=Apartado_Portafolio.objects.get_apartado()
 
         if datos:   
             context['imagenPortada']=datos.imagenPortada
         return context
 
-class EspecilizacionDetailView(DetailView):
-    model = Especilizacion
+class EspecializacionDetailView(DetailView):
+    model = Especializacion
     template_name="portafolio/detalle_especializacion.html"
 
     def get_context_data(self,**kwargs):
         context=super().get_context_data(**kwargs)
-        datos=Apartado_Portafolio.objects.last()
+        datos=Apartado_Portafolio.objects.get_apartado()
 
         if datos:   
             context['imagenPortada']=datos.imagenPortada
@@ -35,7 +35,7 @@ class CursoImpartidoDetailView(DetailView):
 
     def get_context_data(self,**kwargs):
         context=super().get_context_data(**kwargs)
-        datos=Apartado_Portafolio.objects.last()
+        datos=Apartado_Portafolio.objects.get_apartado()
 
         if datos:   
             context['imagenPortada']=datos.imagenPortada
@@ -48,7 +48,7 @@ class CursoTomadoDetailView(DetailView):
 
     def get_context_data(self,**kwargs):
         context=super().get_context_data(**kwargs)
-        datos=Apartado_Portafolio.objects.last()
+        datos=Apartado_Portafolio.objects.get_apartado()
 
         if datos:   
             context['imagenPortada']=datos.imagenPortada
@@ -62,7 +62,7 @@ class ProyectoListView(ListView):
 
     def get_context_data(self,**kwargs):
         context=super().get_context_data(**kwargs)
-        datos=Apartado_Portafolio.objects.last()
+        datos=Apartado_Portafolio.objects.get_apartado()
 
         if datos:   
             context['imagenPortada']=datos.imagenPortada
@@ -71,12 +71,12 @@ class ProyectoListView(ListView):
 
 
 class EspecializacionListView(ListView):
-    model =Especilizacion
+    model =Especializacion
     template_name = "portafolio/lista_especializaciones.html"
 
     def get_context_data(self,**kwargs):
         context=super().get_context_data(**kwargs)
-        datos=Apartado_Portafolio.objects.last()
+        datos=Apartado_Portafolio.objects.get_apartado()
 
         if datos:   
             context['imagenPortada']=datos.imagenPortada
@@ -90,7 +90,7 @@ class CursoImpartidoListView(ListView):
 
     def get_context_data(self,**kwargs):
         context=super().get_context_data(**kwargs)
-        datos=Apartado_Portafolio.objects.last()
+        datos=Apartado_Portafolio.objects.get_apartado()
 
         if datos:   
             context['imagenPortada']=datos.imagenPortada
@@ -139,7 +139,7 @@ class CursoTomadoListView(ListView):
 
     def get_context_data(self,**kwargs):
         context=super().get_context_data(**kwargs)
-        datos=Apartado_Portafolio.objects.last()
+        datos=Apartado_Portafolio.objects.get_apartado()
 
         if datos:   
             context['imagenPortada']=datos.imagenPortada
@@ -163,7 +163,7 @@ class Portafolio(TemplateView):
     template_name="portafolio/portafolio.html"
     def get_context_data(self,**kwargs):
         context=super().get_context_data(**kwargs)
-        datos=Apartado_Portafolio.objects.last()
+        datos=Apartado_Portafolio.objects.get_apartado()
 
         if datos:   
             context['imagenPortada']=datos.imagenPortada
@@ -172,7 +172,7 @@ class Portafolio(TemplateView):
             context['proyectos']=Proyecto.objects.filter(preparadoParaMostrar=True)[:3]
 
             # solo retornara las 3 primeras especializaciones
-            context['especializaciones']=Especilizacion.objects.filter(preparadoParaMostrar=True)[:3]
+            context['especializaciones']=Especializacion.objects.filter(preparadoParaMostrar=True)[:3]
 
             # solo retornara los 3 primeros cursos impartidos
             context['cursosImpartidos']=CursoImpartido.objects.filter(preparadoParaMostrar=True)[:3]

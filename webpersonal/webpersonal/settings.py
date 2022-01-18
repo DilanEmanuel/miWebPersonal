@@ -66,9 +66,11 @@ INSTALLED_APPS = [
     'ckeditor_uploader',
 
     # LOCAL_APPS
+    'blog',
     'about_me',
     'contacto',
     'portafolio',
+    
 ]
 
 MIDDLEWARE = [
@@ -97,7 +99,6 @@ TEMPLATES = [
 
                 # PROCESOS LOCALES
                 'procesors.datos_autor',
-                'procesors.datos_contacto',
                 'procesors.contexto_contactos'
 
             ],
@@ -162,6 +163,7 @@ STATIC_URL = '/static/'
 # Definir la ruta en donde se guaradaran los ficheros MEDIA
 MEDIA_URL='/media/'
 MEDIA_ROOT=os.path.join(BASE_DIR,'media')
+
 
 
 

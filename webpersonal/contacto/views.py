@@ -21,12 +21,10 @@ class Contacto(TemplateView):
 
     def get_context_data(self,**kwargs):
         context=super().get_context_data(**kwargs)
-        datos=Apartado_Contacto.objects.last()
+        datos=Apartado_Contacto.objects.get_apartado()
 
         if datos:      
             context['imagenPortada']=datos.imagenPortada
-            context['incidicacionesContacto']=datos.indicacionesContacto
-            context['numeroTelefonico']=datos.numeroTelefonico
 
         return context
 
@@ -37,12 +35,10 @@ class MensajeExito(TemplateView):
 
     def get_context_data(self,**kwargs):
         context=super().get_context_data(**kwargs)
-        datos=Apartado_Contacto.objects.last()
+        datos=Apartado_Contacto.objects.get_apartado()
 
         if datos:      
             context['imagenPortada']=datos.imagenPortada
-            context['incidicacionesContacto']=datos.indicacionesContacto
-            context['numeroTelefonico']=datos.numeroTelefonico
 
         return context
         
@@ -55,12 +51,10 @@ class FormularioContacto(FormView):
 
     def get_context_data(self,**kwargs):
         context=super().get_context_data(**kwargs)
-        datos=Apartado_Contacto.objects.last()
+        datos=Apartado_Contacto.objects.get_apartado()
 
         if datos:      
             context['imagenPortada']=datos.imagenPortada
-            context['incidicacionesContacto']=datos.indicacionesContacto
-            context['numeroTelefonico']=datos.numeroTelefonico
 
         return context
 
@@ -73,7 +67,9 @@ class FormularioContacto(FormView):
         #autorSitioWeb=procesors.datos_autor.NOMBRE
         #autorSitioWeb=RequestContext(self.request,processors=[procesors.datos_autor]).get('NOMBRE')
         print("*****************************************")
-        autorSitioWeb=DatosAutor.objects.last().nombre
+
+        datosDelAutor=DatosAutor.objects.last()
+        autorSitioWeb=datosDelAutor.nombre
         mensajeRecibido=MensajeRecibido.objects.last()
 
         asunto=mensajeRecibido.asunto
@@ -90,7 +86,7 @@ class FormularioContacto(FormView):
         # mensaje para el programador
         asunto="WEB personal, contacto:{}".format(nombre)
         mensaje="** Nombre del contacto:\n{}\n**Correo del contacto:\n{}\n**Mensaje:\n{}".format(nombre,correo,contenido)
-        email_destino=[EMAIL_HOST_USER]
+        email_destino=[datosDelAutor.correoElectronico]
         send_mail(asunto,mensaje,email_remitente,email_destino)
 
         return super(FormularioContacto,self).form_valid(form)

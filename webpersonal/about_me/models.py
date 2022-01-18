@@ -29,6 +29,9 @@ class DatosAutor(models.Model):
     ocupacion=models.CharField(max_length=150,verbose_name="Profesion:")
     fechaNacimiento=models.DateField(verbose_name="Fecha de nacimiento:")
 
+    correoElectronico=models.EmailField(verbose_name="Correo electronico: ",null=True,default=None)
+    numeroTelefonico=models.CharField(max_length=50,null=True,default=None)
+
     class Meta:
         verbose_name="Datos del autor"
         verbose_name_plural="Datos del autor"

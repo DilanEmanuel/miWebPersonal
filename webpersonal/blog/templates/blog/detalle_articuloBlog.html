@@ -1,6 +1,6 @@
 {% extends 'base.html' %}
 {% load static %}
-{% block title %}Portafolio{% endblock %}
+{% block title %}Blog personal{% endblock %}
 {% block imagenPortada %} {{imagenPortada.url}}  {% endblock %}
 
 
@@ -14,7 +14,7 @@
 -->
 
 {% block cabezeras %}
-    <h1 style="font-size:40px;" >Proyecto</h1>
+    <h1 style="font-size:40px;" >Articulo</h1>
     
 {% endblock %}
 
@@ -26,12 +26,18 @@
         <div class="col-md-7 col-lg-4 mb-5 mb-lg-0 wow fadeIn">
             <div class="card border-0 shadow">
                 <img  src="{{object.imagen.url}}" alt="...">
-                <div class="card-body p-1-9 p-xl-5">
-        
+                <div class="card-body p-1-9 p-xl-5">        
                     <ul class="list-unstyled mb-4 mt-2">
-                        <li class="mb-3"><i class="fa fa-calendar display-25 me-3 text-secondary"> Fecha de expedicion: {{object.terminoProyecto|date:"F/Y"}}</i></li>            
+                        <li class="mb-3"><i class="fa fa-calendar display-25 me-3 text-secondary"> Publicación: {{object.created}}</i></li>
+                        <li class="mb-3"><i class="fa fa-calendar display-25 me-3 text-secondary"> Ultima modificación: {{object.modified}}</i></li>
                     </ul>
 
+                    <div class="mb-4">
+                        <h3 class="h4 mb-0">Categorias:</h3>
+                        {% for cadaCategoria in object.categorias.all %}
+                        <a  href="{% url 'blog_app:blog-inicio' %}?categoria={{cadaCategoria.id}}" class="badge badge-primary mr-1 my-1">{{cadaCategoria|truncatechars:30}}</a>
+                        {% endfor %}
+                    </div>
                 </div>
             </div>
         </div>

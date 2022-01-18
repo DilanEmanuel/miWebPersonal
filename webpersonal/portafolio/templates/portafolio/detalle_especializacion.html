@@ -60,7 +60,7 @@
                     <div class="mb-4">
                         <h3 class="h4 mb-0">Cursos:</h3>
                         {% for cadaCurso in object.getCursosOrdenados.all %}
-                        <a  href="{% url 'portafolio_app:cursoTomado-detail' cadaCurso.especilizacion.id %}" class="badge badge-primary mr-1 my-1">{{cadaCurso|truncatechars:30}}</a>
+                        <a  href="{% url 'portafolio_app:cursoTomado-detail' cadaCurso.especializacion.id %}" class="badge badge-primary mr-1 my-1">{{cadaCurso|truncatechars:30}}</a>
                         {% endfor %}
                     </div>
 
@@ -85,7 +85,7 @@
                     <div class="text-start mb-1-6 wow fadeIn">
                         <h2 class="h1 mb-0 text-primary">{{object.nombre}}</h2>
                     </div>
-                    <p>{{object.descripccion|safe}}</p>
+                    <p>{{object.contenido|safe}}</p>
                   
                 </div>
 

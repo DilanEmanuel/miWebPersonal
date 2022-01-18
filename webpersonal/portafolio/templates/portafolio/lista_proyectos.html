@@ -19,7 +19,7 @@
         <div class="card-body">
         <h5 class="card-title">{{cadaProyecto.titulo}}</h5>
         <p class="card-text"><small class="text-muted">{{cadaProyecto.terminoProyecto}}</small></p>
-        <p class="card-text">{{cadaProyecto.descripccion|safe|truncatechars:200}}</p>
+        <p class="card-text">{{cadaProyecto.descripccion|safe|truncatechars:120}}</p>
         <p><a href="{% url 'portafolio_app:proyecto-detail' cadaProyecto.id %}">Más información</a></p>    
     </div>
     </div>
