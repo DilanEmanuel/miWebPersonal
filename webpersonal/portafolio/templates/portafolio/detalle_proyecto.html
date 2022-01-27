@@ -1,6 +1,6 @@
 {% extends 'base.html' %}
 {% load static %}
-{% block title %}Portafolio{% endblock %}
+{% block title %}Proyecto-{{object.titulo|truncatechars:20}}{% endblock %}
 {% block imagenPortada %} {{imagenPortada.url}}  {% endblock %}
 
 

@@ -35,6 +35,7 @@ class ArticuloDeBlog(TimeStampedModel):
 
 class Apartado_Blog(Apartado):
     articulosDestacados=models.ManyToManyField(ArticuloDeBlog)
+    fraseBlog=models.CharField(max_length=200,verbose_name="Frase de presentación del blog personal",null=True)
     class Meta:
         verbose_name="Presentacion de la pagina principal del: Blog"
         verbose_name_plural="Presentacion de la pagina principal del: Blog"

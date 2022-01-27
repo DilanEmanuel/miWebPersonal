@@ -16,7 +16,8 @@ Including another URLconf
 from django.contrib import admin
 from django.urls import path,include,re_path
 from django.conf import settings
-
+from django.views.static import serve
+import os
 
 urlpatterns = [
     path('admin/', admin.site.urls),
@@ -25,6 +26,17 @@ urlpatterns = [
     path('', include('portafolio.urls') ),
     path('', include('blog.urls') ),
     re_path(r'^ckeditor/', include('ckeditor_uploader.urls')),
+]
+
+# Serve the favicon - Keep for later
+# Serve the static HTML
+BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+urlpatterns += [
+    path('favicon.ico', serve, {
+            'path': 'favicon.ico',
+            'document_root': os.path.join(BASE_DIR, 'about_me/static'),
+        }
+    ),
 ]
 
 if settings.DEBUG:

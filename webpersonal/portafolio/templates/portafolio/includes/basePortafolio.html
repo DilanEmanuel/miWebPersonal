@@ -16,5 +16,6 @@
 
 {% block content %}
     {% block portafolioApartado %}   {% endblock %}
-    {% include 'portafolio/includes/paginacion.html' %}
+
+    {% block paginacionEmpleada %} {% include 'portafolio/includes/paginacion.html' %}   {% endblock %}
 {% endblock %}

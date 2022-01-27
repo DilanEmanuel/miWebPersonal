@@ -2,6 +2,8 @@ from django.db import models
 from ckeditor_uploader.fields import RichTextUploadingField
 from about_me.functions import Apartado
 from django.utils.timezone import now
+from django.core.exceptions import ValidationError
+from django.utils.translation import gettext_lazy as _
 
 # Create your models here.
 
@@ -36,12 +38,6 @@ class Proyecto(models.Model):
     def __str__(self):
         return "Proyecto: {}".format(self.titulo)
 
-
-class Apartado_Portafolio(Apartado):
-
-    class Meta:
-        verbose_name="Presentacion de la pagina del: portafolio"
-        verbose_name_plural="Presentacion de la pagina del: portafolio"
 
 
 class Logo(models.Model):
@@ -87,7 +83,7 @@ class Curso(models.Model):
 
 
     def __str__(self):
-        return "{}"+self.nombre
+        return "{}".format(self.nombre)
 
 
 class CursoTomado(Curso):
@@ -126,10 +122,6 @@ class Especializacion(Curso):
         # del mas nuevo al mas antiguo usar '-'
         # del mas antigua a las nuevo NO USAR '-'
         ordering=['prioridad']
-
-
-    def __str__(self):
-        return "{}".format(self.nombre)
 
 
 
@@ -180,11 +172,15 @@ class ExperienciaLaboral(models.Model):
 
 
 
-
-
-
-
-
+class Apartado_Portafolio(Apartado):
+    proyectosDestacados=models.ManyToManyField(Proyecto,blank=True,verbose_name="Selecciona los proyectos destacados:")
+    especializacionesDestacados=models.ManyToManyField(Especializacion,blank=True,verbose_name="Selecciona las especializaciones destacadas:")
+    cursosImpartidosDestacados=models.ManyToManyField(CursoImpartido,blank=True,verbose_name="Selecciona tus cursos impartidos destacados:") 
+    cursosTomadosDestacados=models.ManyToManyField(CursoTomado,blank=True,verbose_name="Selecciona tus cursos destacados:" )
+    
+    class Meta:
+        verbose_name="Presentacion de la pagina del: portafolio"
+        verbose_name_plural="Presentacion de la pagina del: portafolio"
 
 
 

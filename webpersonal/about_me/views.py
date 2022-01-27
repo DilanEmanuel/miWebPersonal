@@ -13,11 +13,14 @@ class CurriculumDetail(View):
 
     def get(self, request, *args, **kwargs):
         miCurriculum = Curriculum.objects.last()
-        filename=miCurriculum.curriculum.path
 
-        if os.path.exists(filename):
-            response = FileResponse(open(filename, 'rb'))
-            return response
+        if miCurriculum:
+            filename=miCurriculum.curriculum.path
+            
+            if os.path.exists(filename):
+                response = FileResponse(open(filename, 'rb'))
+                return response
+            raise Http404
 
         raise Http404
 

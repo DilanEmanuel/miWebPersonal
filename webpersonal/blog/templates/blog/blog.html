@@ -10,7 +10,7 @@
 {% extends 'base.html' %}
 {% load static %}
 
-{% block title %}Acerca de{% endblock %}
+{% block title %}Blog personal {% endblock %}
 
 
 
@@ -20,7 +20,7 @@
 {% block cabezeras %}
     <h1 style="font-size:40px;" >Blog personal</h1>
     <span class="subheading">
-        "Él se enamoró de sus flores y no de sus raíces, y en otoño no supo qué hacer”. -Le petit prince
+        {{fraseBlog}}
     </span>
 
 {% endblock %}
@@ -54,7 +54,7 @@
                     </div>
                     <div class="footer">
                         <div class="actions">
-                            <a href="{% url 'blog_app:blog-articuloDetail' cadaArticulo.id %}" class="btn btn-outline-secondary mb-2">Continue Reading</a>
+                            <a href="{% url 'blog_app:blog-articuloDetail' cadaArticulo.id %}" class="btn btn-outline-secondary mb-2">Continuar leyendo</a>
                         </div>
                     </div>
                 </div>
@@ -71,7 +71,17 @@
                     <ul class="pagination justify-content-center">
                     {% if page_obj.has_previous %}
                         <li class="page-item ">
+
+                        {% if palabraClave_DIO_USER or id_categoria_DIO_USER %}  
+                        {% if id_categoria_DIO_USER %}
+                        <a class="page-link" href="?page={{ page_obj.previous_page_number }}&categoria={{id_categoria_DIO_USER}}">&laquo;</a>
+                        {% else %}
+                        <a class="page-link" href="?page={{ page_obj.previous_page_number }}&palabraClave={{palabraClave_DIO_USER}}">&laquo;</a>         
+                        {% endif %}
+                        {% else %}
                         <a class="page-link" href="?page={{ page_obj.previous_page_number }}">&laquo;</a>
+                        {% endif %}
+                        
                         </li>
                     {% else %}
                         <li class="page-item disabled">
@@ -80,12 +90,31 @@
                     {% endif %}
                     {% for i in paginator.page_range %}
                         <li class="page-item {% if page_obj.number == i %}active{% endif %}">
+                        {% if palabraClave_DIO_USER or id_categoria_DIO_USER %}  
+                        {% if id_categoria_DIO_USER %}
+                        <a class="page-link" href="?page={{ i }}&categoria={{id_categoria_DIO_USER}}">{{ i }}</a>
+                        {% else %}
+                        <a class="page-link" href="?page={{ i }}&palabraClave={{palabraClave_DIO_USER}}">{{ i }}</a>
+                        {% endif %}
+                    {% else %}
                         <a class="page-link" href="?page={{ i }}">{{ i }}</a>
-                        </li>
+                    {% endif %}
+
+                    </li>
                     {% endfor %}
                     {% if page_obj.has_next %}
                         <li class="page-item ">
+
+                        {% if palabraClave_DIO_USER or id_categoria_DIO_USER %}  
+                        {% if id_categoria_DIO_USER %}
+                        <a class="page-link" href="?page={{ page_obj.next_page_number }}&categoria={{id_categoria_DIO_USER}}">&raquo;</a>
+                        {% else %}
+                        <a class="page-link" href="?page={{ page_obj.next_page_number }}&palabraClave={{palabraClave_DIO_USER}}">&raquo;</a>
+                        {% endif %}
+                        {% else %}
                         <a class="page-link" href="?page={{ page_obj.next_page_number }}">&raquo;</a>
+                        {% endif %}
+
                         </li>
                     {% else %}
                         <li class="page-item disabled">
@@ -95,7 +124,7 @@
                     </ul>
                 </nav>
                 {% endif %}
-                 <!-- Menú de FIN -->
+                <!-- Menú de paginacion -->
                            
                  
 
@@ -107,13 +136,13 @@
             <div class="col-lg-4 col-md-12 right-box">
                 <div class="card">
                     <div class="body search">
-                        <form action="{% url 'blog_app:blog-inicio' %}">{% csrf_token %}
+                        <form action="{% url 'blog_app:blog-inicio' %}">
                         <div class="input-group m-b-0">
                                 <button type="submit">
                                     <span class="input-group-text"><i class="fa fa-search"></i></span>
                                 </button>
-                                <input id="palabraClave" name="palabraClave" type="text" class="form-control" placeholder="Buscar por nombre de articulo"
-                                 required="required" pattern="{1,20}">                           
+                                <input id="palabraClave" name="palabraClave" type="text" class="form-control" placeholder="Buscar articulo por su nombre"
+                                {% if palabraClave_DIO_USER %} value="{{palabraClave_DIO_USER}}" {% endif %}   required="required" pattern="{1,20}">                           
                         </div>
                         </form>
                                      
@@ -123,14 +152,27 @@
                 <!-- APARTADO DE CATEGORIAS -->
                 <div class="card mt-4">
                     <div class="card-header mt-2">
-                        <h2 class="h3 mb-0 text-primary">Categorias</h2>
+                        <h2 class="h3 mb-0 text-dark">Categorias</h2>
                     </div>
                     <div class="card-body text-center">
                         <ul class="list-unstyled categories-clouds m-b-0 mt-2"  style="max-height: 300px;  overflow:scroll;">
-                            <li><a href="{% url 'blog_app:blog-inicio' %}">Todos los articulos</a></li>
+
+                            <div class="nav flex-column nav-pills" id="v-pills-tab" role="tablist" aria-orientation="vertical">
+
+                            
+     
+                            <a {% if not id_categoria_DIO_USER and not palabraClave_DIO_USER  %} class="nav-link active" {% else %} class="nav-link" {% endif %} 
+                            href="{% url 'blog_app:blog-inicio' %}"  aria-selected="true">
+                                Todos los articulos</a>
+
                             {% for cadaCategoria in categorias %}
-                            <li>  <a href="{% url 'blog_app:blog-inicio' %}?categoria={{cadaCategoria.id}}">{{cadaCategoria}}</a> </li>
+                            <a  {% ifequal cadaCategoria.id|stringformat:"s" id_categoria_DIO_USER|stringformat:"s" %}  class="nav-link active"  {% else %} class="nav-link" {% endifequal %} 
+                            href="{% url 'blog_app:blog-inicio' %}?categoria={{cadaCategoria.id}}" aria-selected="true">
+                                {{cadaCategoria}} 
+                            </a>
                             {% endfor %}
+                            </div>
+
 
                         </ul>
                     </div>
@@ -141,7 +183,7 @@
                 <!-- (INICIO) APARTADO DE 'LO MAS RECIENTE' -->
                 <div class="card mt-4">
                     <div class="card-header mt-2">
-                        <h2 class="h3 mb-0 text-primary">Los mas reciente</h2>                        
+                        <h2 class="h3 mb-0 text-dark">Los mas reciente</h2>                        
                     </div>
                     <div class="body widget popular-post">
                         <div class="row">
@@ -169,7 +211,7 @@
                 <!-- (INICIO) APARTADO DE 'LO DESTACADO' -->
                 <div class="card mt-4">
                     <div class="card-header mt-2">
-                        <h2 class="h3 mb-0 text-primary" >Destacados</h2>                        
+                        <h2 class="h3 mb-0 text-dark" >Destacados</h2>                        
                     </div>
                     <div class="body widget popular-post">
                         <div class="row">

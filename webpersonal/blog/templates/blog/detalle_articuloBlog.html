@@ -1,6 +1,6 @@
 {% extends 'base.html' %}
 {% load static %}
-{% block title %}Blog personal{% endblock %}
+{% block title %}{{object.titulo|truncatechars:30}}{% endblock %}
 {% block imagenPortada %} {{imagenPortada.url}}  {% endblock %}
 
 

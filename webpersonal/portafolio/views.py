@@ -102,7 +102,7 @@ class CursoTomadoListView(ListView):
     model = CursoTomado
     template_name = "portafolio/lista_cursosTomados.html"
 
-    paginate_by=6
+    paginate_by=9
 
 
 
@@ -141,6 +141,19 @@ class CursoTomadoListView(ListView):
         context=super().get_context_data(**kwargs)
         datos=Apartado_Portafolio.objects.get_apartado()
 
+        # un form manda unicamente el dato de: 'palabraClave'
+        palabraClave=self.request.GET.get("palabraClave",None)
+        
+        # otro form manda unicamente el dato de: 'habilidad'
+        id_habilidad=self.request.GET.get("habilidad",None)
+        
+        
+        if palabraClave:
+            context['palabraClave_DIO_USER']=palabraClave
+        elif id_habilidad:
+            context['id_habilidad_DIO_USER']=id_habilidad
+
+
         if datos:   
             context['imagenPortada']=datos.imagenPortada
             context['apartadoPortafolio']="Cursos tomados"
@@ -159,8 +172,10 @@ class CursoTomadoListView(ListView):
             
 
 
+
 class Portafolio(TemplateView):
     template_name="portafolio/portafolio.html"
+
     def get_context_data(self,**kwargs):
         context=super().get_context_data(**kwargs)
         datos=Apartado_Portafolio.objects.get_apartado()
@@ -169,17 +184,16 @@ class Portafolio(TemplateView):
             context['imagenPortada']=datos.imagenPortada
             
             # solo retornara los 3 primeros proyectos
-            context['proyectos']=Proyecto.objects.filter(preparadoParaMostrar=True)[:3]
+            context['proyectos']=datos.proyectosDestacados.all()[:3]
 
             # solo retornara las 3 primeras especializaciones
-            context['especializaciones']=Especializacion.objects.filter(preparadoParaMostrar=True)[:3]
+            context['especializaciones']=datos.especializacionesDestacados.all()[:3]
 
             # solo retornara los 3 primeros cursos impartidos
-            context['cursosImpartidos']=CursoImpartido.objects.filter(preparadoParaMostrar=True)[:3]
+            context['cursosImpartidos']=datos.cursosImpartidosDestacados.all()[:3]
 
             # solo retornara los primeros 6 cursos
-            cursosTomados=list(CursoTomado.objects.filter(preparadoParaMostrar=True)[:6])
-            context['cursosTomados']=cursosTomados
+            context['cursosTomados']=datos.cursosTomadosDestacados.all()[:6]
 
             # retornara todo
             context['experienciaLaboral']=ExperienciaLaboral.objects.all()

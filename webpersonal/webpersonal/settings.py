@@ -23,7 +23,7 @@ BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 
 
 
-with open("secret.json") as f:
+with open("./secret.json") as f:
     secret = json.loads(f.read())
 
 def get_secret(secret_name, secrets=secret):
@@ -112,12 +112,35 @@ WSGI_APPLICATION = 'webpersonal.wsgi.application'
 # Database
 # https://docs.djangoproject.com/en/3.0/ref/settings/#databases
 
+
+# GESTOR DE BASE DE DATOS:  S Q U L I T E 
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.sqlite3',
         'NAME': os.path.join(BASE_DIR, 'db.sqlite3'),
     }
 }
+
+
+# GESTOR DE BASE DE DATOS:  M Y S Q L 
+#DATABASES = {
+#    'default': {
+#        'ENGINE': 'django.db.backends.mysql',
+#        'NAME': get_secret('DB_NAME'),
+#        'USER': get_secret('USER'),
+#        'PASSWORD': get_secret('PASSWORD'),
+#        'HOST': get_secret('HOST'),
+#         'OPTIONS': {
+#            'init_command': "SET sql_mode='STRICT_TRANS_TABLES'",
+#        },
+#    }
+#}
+
+
+
+
+
+
 
 
 # Password validation
@@ -158,6 +181,8 @@ USE_TZ = True
 # https://docs.djangoproject.com/en/3.0/howto/static-files/
 
 STATIC_URL = '/static/'
+# STATIC_ROOT=os.path.join(BASE_DIR,'static')
+
 
 
 # Definir la ruta en donde se guaradaran los ficheros MEDIA

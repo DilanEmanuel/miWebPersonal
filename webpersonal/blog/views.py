@@ -59,8 +59,22 @@ class BlogPersonal(ListView):
         datosApartado=Apartado_Blog.objects.get_apartado()
 
 
+        # un form manda unicamente el dato de: 'palabraClave'
+        palabraClave=self.request.GET.get("palabraClave",None)
+        # otro form manda unicamente el dato de: 'habilidad'
+        id_categoria=self.request.GET.get("categoria",None)
+        
+        
+        if palabraClave:
+            context['palabraClave_DIO_USER']=palabraClave
+
+        elif id_categoria:
+            context['id_categoria_DIO_USER']=id_categoria
+
+
         if datosApartado:   
             context['imagenPortada']=datosApartado.imagenPortada
+            context['fraseBlog']=datosApartado.fraseBlog
             # solo retornara los primeros 3 de cada uno...
             context['articulosDestacados']=datosApartado.articulosDestacados.all().filter(preparadoParaMostrar=True).order_by('created')[:3]    
             context['articulosRecientes']=ArticuloDeBlog.objects.filter(preparadoParaMostrar=True).order_by('created')[:3]

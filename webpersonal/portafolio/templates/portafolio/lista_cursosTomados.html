@@ -1,11 +1,17 @@
-{% extends 'portafolio/includes/basePortafolio.html' %}
+{% extends 'base.html' %}
 {% load static %}
+{% block title %}Cursos tomados{% endblock %}
+{% block imagenPortada %} {{imagenPortada.url}}  {% endblock %}
 
-{%  block linkRegreso %} 
-<a href="{% url 'portafolio_app:portafolio' %}#cursos_tomados">Regresar al portafolio </a>
+{% block cabezeras %}
+    <h1 style="font-size:40px;" >{{apartadoPortafolio}}</h1>
+    <span class="subheading" style="color: aliceblue;"> 
+        <a href="{% url 'portafolio_app:portafolio' %}#cursos_tomados">Regresar al portafolio </a>  
+     </span>
 {% endblock %}
 
-{% block portafolioApartado %}
+
+{% block content %}
 
 <!-- 
 
@@ -23,23 +29,24 @@
 		<div class="col-md-12" action="{% url 'portafolio_app:cursosTomados-lista' %}" >
             <div class="input-group" id="adv-search" style="font-size:20px;">
             
-              <form   class="input-group" action="{% url 'portafolio_app:cursosTomados-lista' %}"  >{% csrf_token %}
-                <input id="palabraClave" name="palabraClave" type="text" class="form-control mr-sm-2" placeholder="Buscar por nombre"
+              <form   class="input-group" action="{% url 'portafolio_app:cursosTomados-lista' %}"  >
+                <input id="palabraClave" name="palabraClave" type="text" class="form-control mr-sm-2" placeholder="Buscar curso por nombre"
                 required="required" pattern="{1,20}"
-                />
+                {% if palabraClave_DIO_USER %} value="{{palabraClave_DIO_USER}}" {% endif %}  />
                 <button type="submit">
                   <i class="fa fa-search "></i></button>
                 <div class=" mr-sm-2"></div> 
               </form>
 
-              <form  class="input-group" action="{% url 'portafolio_app:cursosTomados-lista' %}" >{% csrf_token %}
+              <form  class="input-group" action="{% url 'portafolio_app:cursosTomados-lista' %}" >
                 <select id="habilidad" name="habilidad" class="selectpicker form-control mr-sm-2"
                 required="required" pattern="{1,20}"> 
-                  <option value="" selected="selected" >Buscar por habilidad</option>
-                  {% for cadaHabilidad in habilidadesCursos %}
-                  <option value="{{cadaHabilidad.id}}">{{cadaHabilidad.nombre}}</option>
-                  {% endfor %}
-          
+                    <option value=""  {% if not id_habilidad_DIO_USER %}  selected="selected" {% endif %}  >Buscar cursos por habilidad</option>
+                    {% for cadaHabilidad in habilidadesCursos %}
+                        <option value="{{cadaHabilidad.id}}"  {% ifequal cadaHabilidad.id|stringformat:"s" id_habilidad_DIO_USER|stringformat:"s" %} selected="selected" {% endifequal %} >{{cadaHabilidad.nombre}}</option>
+                    {% endfor %}
+    
+                  
                 </select>
                 <button type="submit">
                   <i class="fa fa-search "></i></button>
@@ -96,83 +103,67 @@
 
 
 
+<!-- Menú de paginación  -->
+{% if is_paginated %}
+<nav aria-label="Page navigation">
+    <ul class="pagination justify-content-center">
+    {% if page_obj.has_previous %}
+        <li class="page-item ">
 
-
-
-
-
-
-
-<!--
-<form class="form-inline justify-content-center" style="text-align: center;">
-  <input class="form-control mr-sm-2"type="text" placeholder="Search" aria-label="Search">
-  <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Search</button>
-</form>
--->
-
-
-<!--
-  <div class="row">
-    <div class="col-3">
-      <div class="nav flex-column nav-pills" id="v-pills-tab" role="tablist" aria-orientation="vertical">
-        <a class="nav-link active" id="v-pills-home-tab" data-toggle="pill" href="#v-pills-home" role="tab" aria-controls="v-pills-home" aria-selected="true">Todos</a>
-        {% for cadaHabilidad in habilidadesCursos %}
-        <a class="nav-link" id="v-pills-settings-tab" data-toggle="pill" href="#v-pills-settings" role="tab" aria-controls="v-pills-settings" aria-selected="false">
-          {{cadaHabilidad.nombre}}
-        </a>
-
-        {% endfor %}
-
-
-
-      </div>
-    </div>
-    <div class="col-9">
-      <div class="tab-content" id="v-pills-tabContent">
-
-
-        <div class="container">
-          {% for cadaCurso in cursotomado_list %}
-              {% if forloop.counter0|divisibleby:3 %}
-                {% if not forloop.first  %}</div>{% endif %}
-                <div class="row my-3">
-              {% endif %}
+        {% if palabraClave_DIO_USER or id_habilidad_DIO_USER %}  
+           {% if id_habilidad_DIO_USER %}
+           <a class="page-link" href="?page={{ page_obj.previous_page_number }}&habilidad={{id_habilidad_DIO_USER}}">&laquo;</a>
+           {% else %}
+           <a class="page-link" href="?page={{ page_obj.previous_page_number }}&palabraClave={{palabraClave_DIO_USER}}">&laquo;</a>         
+           {% endif %}
+        {% else %}
+           <a class="page-link" href="?page={{ page_obj.previous_page_number }}">&laquo;</a>
+        {% endif %}
         
-              <div class="col-md-4">
-                  <div class="card text-center h-100">
-                      <a href="#">
-                        <div class="card-block">
-                            <h5 class="card-title"> 
-                                <a href="#"> {{cadaCurso.nombre}} </a> </h5>
-                            <div class="mb-1 text-muted">{{cadaCurso.fechaExpedicion}}</div>
-                            <h2>
-                                <img class="rounded-circle"  {% if cadaCurso.logoExtra.imagen.url %} src="{{cadaCurso.logoExtra.imagen.url}}"  {% else %}  src="{{cadaCurso.empresaEmisora.imagen.url}}"  {% endif %}   alt="Generic placeholder image" width="140" height="140">
-                            </h2>
-                        </div>
-                        <div class="row px-2 no-gutters">
-                          <div class="col-12">
-                            <p><a href="http://google.com">Más información</a></p>
-                          </div>
+        </li>
+    {% else %}
+        <li class="page-item disabled">
+        <a class="page-link" href="#" tabindex="-1">&laquo;</a>
+        </li>
+    {% endif %}
+    {% for i in paginator.page_range %}
+        <li class="page-item {% if page_obj.number == i %}active{% endif %}">
+        {% if palabraClave_DIO_USER or id_habilidad_DIO_USER %}  
+          {% if id_habilidad_DIO_USER %}
+          <a class="page-link" href="?page={{ i }}&habilidad={{id_habilidad_DIO_USER}}">{{ i }}</a>
+          {% else %}
+          <a class="page-link" href="?page={{ i }}&palabraClave={{palabraClave_DIO_USER}}">{{ i }}</a>
+          {% endif %}
+       {% else %}
+          <a class="page-link" href="?page={{ i }}">{{ i }}</a>
+       {% endif %}
 
-                            <div class="col-12">
-                              <p><a href="http://google.com">Más información</a></p>
-                            </div>
-                        </div>
-                     </a>
-                  </div>
-              </div>  
-              {% if forloop.last %}
-              </div>
-              {% endif %}
-          {% endfor %}
-        </div>
+       </li>
+    {% endfor %}
+    {% if page_obj.has_next %}
+        <li class="page-item ">
+
+        {% if palabraClave_DIO_USER or id_habilidad_DIO_USER %}  
+          {% if id_habilidad_DIO_USER %}
+          <a class="page-link" href="?page={{ page_obj.next_page_number }}&habilidad={{id_habilidad_DIO_USER}}">&raquo;</a>
+          {% else %}
+          <a class="page-link" href="?page={{ page_obj.next_page_number }}&palabraClave={{palabraClave_DIO_USER}}">&raquo;</a>
+          {% endif %}
+        {% else %}
+          <a class="page-link" href="?page={{ page_obj.next_page_number }}">&raquo;</a>
+        {% endif %}
+
+        </li>
+    {% else %}
+        <li class="page-item disabled">
+        <a class="page-link" href="#" tabindex="-1">&raquo;</a>
+        </li>
+    {% endif %}
+    </ul>
+</nav>
+{% endif %}
 
 
-      </div>
-    </div>
-  </div>
-
--->
 
 
-{% endblock portafolioApartado %}
+{% endblock content %}

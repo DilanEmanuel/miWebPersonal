@@ -217,7 +217,7 @@ https://www.codeply.com/go/T0SPcWuyBL/bootstrap-4-row-of-cards-with-icons
   {% for cadaActividad in cadaExperiencia.actividades.all %}
     <div class="media text-muted pt-3">
       <p class="media-body pb-3 mb-0 small lh-125 border-bottom border-gray">
-        {{cadaActividad.descripccion|truncatechars:120}}
+        {{cadaActividad.descripccion}}
       </p>
     </div>
   {% endfor %}
