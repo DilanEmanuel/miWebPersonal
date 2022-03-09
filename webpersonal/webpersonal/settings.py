@@ -257,6 +257,7 @@ CKEDITOR_CONFIGS = {
                 'Maximize',
 
             ]},
+
         ],
         'toolbar': 'YourCustomToolbarConfig',  # put selected toolbar config here
         # 'toolbarGroups': [{ 'name': 'document', 'groups': [ 'mode', 'document', 'doctools' ] }],
@@ -281,7 +282,9 @@ CKEDITOR_CONFIGS = {
             'clipboard',
             'dialog',
             'dialogui',
-            'elementspath'
+            'elementspath',
         ]),
+
+
     }
 }

@@ -38,9 +38,9 @@ class FormularioContacto(forms.Form):
         )
     
 
-    def clean_email(self):
-        correo=self.cleaned_data['email']
-        if not correo.endswith('gmail.com'):
-            raise forms.ValidationError("El correo de contacto debe ser un correo de gmail, es decir tu correo proporcionado deberia tener una terminacion 'gmail.com' ")
-        return correo
+    #def clean_email(self):
+    #    correo=self.cleaned_data['email']
+    #    if not correo.endswith('gmail.com'):
+    #        raise forms.ValidationError("El correo de contacto debe ser un correo de gmail, es decir tu correo proporcionado deberia tener una terminacion 'gmail.com' ")
+    #    return correo
     
